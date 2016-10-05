@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('appApp.util', []);
+angular.module('stockTrackerApp.util', []);

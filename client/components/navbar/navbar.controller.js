@@ -2,10 +2,7 @@
 
 class NavbarController {
   //start-non-standard
-  menu = [{
-    'title': 'Home',
-    'state': 'main'
-  }];
+  menu = [];
 
   isCollapsed = true;
   //end-non-standard
@@ -14,5 +11,5 @@ class NavbarController {
     }
 }
 
-angular.module('appApp')
+angular.module('stockTrackerApp')
   .controller('NavbarController', NavbarController);

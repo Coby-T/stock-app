@@ -3,8 +3,8 @@ public
 .tmp
 .sass-cache
 .idea
+client/assests
 client/bower_components
 dist
 /server/config/local.env.js
 npm-debug.log
-bower_components

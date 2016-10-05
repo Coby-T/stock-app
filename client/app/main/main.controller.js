@@ -4,33 +4,134 @@
 
 class MainController {
 
-  constructor($http, $scope, socket) {
+  constructor($http, $scope, socket, highchartsNG, stockService, $timeout) {
     this.$http = $http;
-    this.awesomeThings = [];
+    this.stocks = [];
+    this.newStock = '';
+    this.startDate = '';
+    this.endDate = '';
+    this.stockService = stockService;
+    this.$timeout = $timeout;
+    
+    var mainCtrl = this;
+    
+    this.chartConfig = this.getHighchartConfig();
 
-    $http.get('/api/things').then(response => {
-      this.awesomeThings = response.data;
-      socket.syncUpdates('thing', this.awesomeThings);
+    $http.get('/api/stocks').then(response => {
+      this.stocks = response.data;
+      socket.syncUpdates('stock', this.stocks, function (event, item) {
+        
+        if (event === 'created') {
+          mainCtrl.getStock(item.code);
+        }
+        else if (event === 'deleted') {
+          mainCtrl.removeStock(item.code);
+        }
+      });
+
+      this.stocks.forEach(function(stock) {
+        mainCtrl.getStock(stock.code);
+      });
     });
 
     $scope.$on('$destroy', function() {
-      socket.unsyncUpdates('thing');
+      socket.unsyncUpdates('stock');
     });
+    
+    highchartsNG.ready(function() {}, this);
+  }
+  
+  getStock(id) {
+    var series = {
+      name: id,
+      data: []
+    };
+    var mainCtrl = this;
+    this.stockService.get(id)
+      .then(function(data) {
+        series.data = data.data.dataset.data.reverse().map(function(info) {
+          return [(new Date(info[0]).getTime()), info[1] ];
+        });
+        
+        mainCtrl.chartConfig.series.push(series);
+      });
   }
 
-  addThing() {
-    if (this.newThing) {
-      this.$http.post('/api/things', { name: this.newThing });
-      this.newThing = '';
+  addStock() {
+    if (this.newStock) {
+      this.stockService.create(this.newStock)
+        .then(this.newStock = '');
+    }
+  }
+  
+  removeStock(id) {
+    var object = _.find(this.chartConfig.series, item => {
+      return item.name.toUpperCase() === id.toUpperCase();
+    });
+    
+    if (object) {
+      this.chartConfig.series.splice(this.chartConfig.series.indexOf(object), 1);
     }
   }
 
-  deleteThing(thing) {
-    this.$http.delete('/api/things/' + thing._id);
+  deleteStock(stock) {
+    this.stockService.remove(stock);
+  }
+  
+  getHighchartConfig() {
+    return {
+      rangeSelector: {
+        selected: 3
+      },
+      
+      xAxis: {
+        type: 'datetime'
+      },
+
+      yAxis: {
+        labels: {
+          formatter: function () {
+            return '$' + this.value;
+          }
+        },
+        plotLines: [{
+          value: 0,
+          width: 2,
+          color: 'silver'
+        }]
+      },
+
+      plotOptions: {
+        series: {
+          compare: ''
+        }
+      },
+
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+        valueDecimals: 2
+      },
+
+      series: [],
+
+      title: {
+        text: 'Stocks'
+      },
+      loading: false,
+      useHighStocks: true,
+      size: {
+        height: 400
+      },
+      func: chart => {
+        this.$timeout(function() {
+          chart.reflow();
+        }, 0);
+      }
+    };
   }
 }
 
-angular.module('appApp')
+angular.module('stockTrackerApp')
   .controller('MainController', MainController);
 
 })();

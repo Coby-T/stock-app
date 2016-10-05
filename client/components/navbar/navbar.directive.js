@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appApp')
+angular.module('stockTrackerApp')
   .directive('navbar', () => ({
     templateUrl: 'components/navbar/navbar.html',
     restrict: 'E',

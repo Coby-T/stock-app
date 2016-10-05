@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appApp')
+angular.module('stockTrackerApp')
   .directive('footer', function () {
     return {
       templateUrl: 'components/footer/footer.html',

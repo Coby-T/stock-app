@@ -53,7 +53,7 @@ module.exports = function (grunt) {
     },
     open: {
       server: {
-        url: 'http://localhost:<%= express.options.port %>'
+        url: 'https://stock-tracker-cobytao.c9users.io:<%= express.options.port %>'
       }
     },
     watch: {
@@ -215,7 +215,7 @@ module.exports = function (grunt) {
             // opens browser on initial server start
             nodemon.on('config:update', function () {
               setTimeout(function () {
-                require('open')('http://localhost:8080/debug?port=5858');
+                require('open')('https://stock-tracker-cobytao.c9users.io:8080/debug?port=5858');
               }, 500);
             });
           }
@@ -227,12 +227,12 @@ module.exports = function (grunt) {
     wiredep: {
       options: {
         exclude: [
-          /bootstrap.js/,
           '/json3/',
           '/es5-shim/',
           /font-awesome\.css/,
           /bootstrap\.css/,
-          /bootstrap-sass-official/
+          /bootstrap-sass-official/,
+          '/highcharts/'
         ]
       },
       client: {
@@ -314,7 +314,7 @@ module.exports = function (grunt) {
     // `server/config/environment/shared.js`
     ngconstant: {
       options: {
-        name: 'appApp.constants',
+        name: 'stockTrackerApp.constants',
         dest: '<%= yeoman.client %>/app/app.constant.js',
         deps: [],
         wrap: true,

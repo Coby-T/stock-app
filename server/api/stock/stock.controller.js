@@ -82,7 +82,9 @@ function getStockHistory(stockId) {
     var month = now.getMonth() + 1;
     var date = now.getDate();
     
-    https.get(`https://www.quandl.com/api/v3/datasets/WIKI/${stockId}.json?api_key=${process.env.QUANDL_API_KEY}&start_date=${year - 1}-${month}-${date}&end_date=${year}-${month}-${date}`, function (res) {
+    var url = `https://www.quandl.com/api/v3/datasets/WIKI/${stockId}.json?api_key=${process.env.QUANDL_API_KEY}&start_date=${year - 1}-${month}-${date}&end_date=${year}-${month}-${date}`;
+    
+    https.get(url, function (res) {
       
       var data = '';
       
@@ -116,8 +118,8 @@ export function create(req, res) {
     res.status(400).end();
   }
   
-  https.get('https://www.quandl.com/api/v3/datasets/WIKI/${req.body.name.toUpperCase()}/metadata.json', function (resStock) {
-    
+  https.get('https://www.quandl.com/api/v3/datasets/WIKI/' + req.body.name.toUpperCase() + '/metadata.json', function (resStock) {
+
     var data = '';
     
     resStock.on('data', function (chunk) {

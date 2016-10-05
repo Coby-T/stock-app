@@ -53,7 +53,7 @@ function UtilService($window) {
   return Util;
 }
 
-angular.module('appApp.util')
+angular.module('stockTrackerApp.util')
   .factory('Util', UtilService);
 
 })();

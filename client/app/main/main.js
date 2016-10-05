@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appApp')
+angular.module('stockTrackerApp')
   .config(function($stateProvider) {
     $stateProvider
       .state('main', {
