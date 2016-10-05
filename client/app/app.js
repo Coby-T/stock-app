@@ -73,9 +73,9 @@ Highcharts.theme = {
     }
   },
   tooltip: {
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    backgroundColor: 'rgba(240, 240, 240, 0.85)',
     style: {
-      color: '#494949'
+      color: '#000000'
     }
   },
   plotOptions: {
@@ -98,15 +98,8 @@ Highcharts.theme = {
     }
   },
   legend: {
-    itemStyle: {
-      color: '#0f0f0f'
-    },
-    itemHoverStyle: {
-      color: '#FFF'
-    },
-    itemHiddenStyle: {
-      color: '#606063'
-    }
+    align: 'center',
+    enabled: true
   },
   credits: {
     style: {
@@ -131,21 +124,21 @@ Highcharts.theme = {
   // scroll charts
   rangeSelector: {
     buttonTheme: {
-      fill: '#505053',
+      fill: '#D0D0DF',
       stroke: '#000000',
       style: {
-        color: '#CCC'
+        color: '#000000'
       },
       states: {
         hover: {
-          fill: '#707073',
+          fill: '#E0E0EF',
           stroke: '#000000',
           style: {
-            color: 'white'
+            color: '#0F0F0F'
           }
         },
         select: {
-          fill: '#000003',
+          fill: '#888888',
           stroke: '#000000',
           style: {
             color: 'white'
