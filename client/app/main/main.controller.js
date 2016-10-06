@@ -65,8 +65,8 @@ class MainController {
   }
   
   removeStock(id) {
-    var object = _.find(this.chartConfig.series, item => {
-      return item.name.toUpperCase() === id.toUpperCase();
+    var object = _.find(this.chartConfig.series, function(seriesItem) {
+      return seriesItem.name.toUpperCase() === id.toUpperCase();
     });
     
     if (object) {

@@ -6,7 +6,7 @@ class stockService {
   }
 
   get(name) {
-    return this.$http.get(`/api/stocks/${name}`);
+    return this.$http.get(`/api/stocks/` + name);
   }
 
   create(name) {
